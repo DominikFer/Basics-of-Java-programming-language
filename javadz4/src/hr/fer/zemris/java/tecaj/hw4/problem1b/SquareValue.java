@@ -1,6 +1,9 @@
 package hr.fer.zemris.java.tecaj.hw4.problem1b;
 
-
+/**
+ * Calculates square value of {@link IntegerStorageChange} value
+ * (every time data changes).
+ */
 public class SquareValue implements IntegerStorageObserver {
 
 	@Override

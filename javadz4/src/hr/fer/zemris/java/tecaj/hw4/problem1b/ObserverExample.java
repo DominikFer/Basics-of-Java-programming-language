@@ -1,5 +1,8 @@
 package hr.fer.zemris.java.tecaj.hw4.problem1b;
 
+/**
+ * Class used for testing Observer design pattern. 
+ */
 public class ObserverExample {
 
 	public static void main(String[] args) {
