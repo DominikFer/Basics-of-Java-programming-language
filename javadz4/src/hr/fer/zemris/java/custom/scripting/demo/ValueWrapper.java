@@ -111,22 +111,6 @@ public class ValueWrapper {
 	public int numCompare(Object withValue) {
 		if(this.value == null && withValue == null) return 0;
 		
-		if(this.value == null && withValue != null) {
-			if(getType(withValue) == TYPE_DOUBLE) {
-				if(0 < Double.parseDouble(withValue.toString())) return -1;
-				if(0 > Double.parseDouble(withValue.toString())) return 1;
-				return 0;
-			}
-		}
-		
-		if(this.value != null && withValue == null) {
-			if(getType(this.value) == TYPE_DOUBLE) {
-				if(Double.parseDouble(this.value.toString()) < 0) return -1;
-				if(Double.parseDouble(this.value.toString()) > 0) return 1;
-				return 0;
-			}
-		}
-		
 		if(getType(this.value) == TYPE_INTEGER && getType(withValue) == TYPE_INTEGER) {
 			Integer first = Integer.valueOf(this.value == null ? 0 : Integer.parseInt(this.value.toString()));
 			Integer second = Integer.valueOf(withValue == null ? 0 : Integer.parseInt(withValue.toString()));
