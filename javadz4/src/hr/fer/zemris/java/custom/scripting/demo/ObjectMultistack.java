@@ -23,8 +23,8 @@ public class ObjectMultistack {
 		if(stack.containsKey(name)) {
 			stack.get(name).add(valueWrapper);
 		} else {
-			MultistackEntry node = new MultistackEntry(valueWrapper);
-			stack.put(name, node);
+			MultistackEntry entry = new MultistackEntry(valueWrapper);
+			stack.put(name, entry);
 		}
 	}
 	
