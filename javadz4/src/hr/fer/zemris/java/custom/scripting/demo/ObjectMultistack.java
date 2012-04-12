@@ -1,8 +1,6 @@
 package hr.fer.zemris.java.custom.scripting.demo;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,12 +18,15 @@ public class ObjectMultistack {
 	 * @param valueWrapper	Value you want to push on the stack.
 	 */
 	public void push(String name, ValueWrapper valueWrapper) {
+		MultistackEntry entry = null;
 		if(stack.containsKey(name)) {
-			stack.get(name).add(valueWrapper);
-		} else {
-			MultistackEntry entry = new MultistackEntry(valueWrapper);
+			entry = new MultistackEntry(valueWrapper, stack.get(name));
 			stack.put(name, entry);
+		} else {
+			entry = new MultistackEntry(valueWrapper, null);
 		}
+		
+		stack.put(name, entry);
 	}
 	
 	/**
@@ -36,11 +37,16 @@ public class ObjectMultistack {
 	 */
 	public ValueWrapper pop(String name) {
 		if(stack.containsKey(name)) {
-			ValueWrapper value = stack.get(name).getLast();
-			stack.get(name).removeLast();
+			ValueWrapper value = stack.get(name).getValue();
+			MultistackEntry entry = stack.get(name);
+			if(entry.getNextEntry() != null) {
+				stack.put(name, entry.getNextEntry());
+			} else {
+				stack.remove(name);
+			}
 			return value;
 		} else {
-			return null;
+			throw new IllegalArgumentException("Stack with name '" + name + "' is empty.");
 		}
 	}
 	
@@ -52,9 +58,9 @@ public class ObjectMultistack {
 	 */
 	public ValueWrapper peek(String name) {
 		if(stack.containsKey(name)) {
-			return stack.get(name).getLast();
+			return stack.get(name).getValue();
 		} else {
-			return null;
+			throw new IllegalArgumentException("Stack with name '" + name + "' is empty.");
 		}
 	}
 	
@@ -66,95 +72,40 @@ public class ObjectMultistack {
 	 * @return		<code>true</code> if the stack is empty, else <code>false</code>.
 	 */
 	public boolean isEmpty(String name) {
-		return stack.get(name).size() == 0;
+		return !stack.containsKey(name);
 	}
 	
 	/**
-	 * Class that acts like a stack entry.
+	 * Class that acts like a node of single-linked list.
 	 */
 	class MultistackEntry {
 		
-		private List<ValueWrapper> list = new LinkedList<ValueWrapper>();
-	    private int size;
+		private MultistackEntry nextEntry;
+		private ValueWrapper value;
 		
 	    /**
-	     *  Creates new {@link MultistackEntry} object.
-	     */
-	    public MultistackEntry() {}
-	    
-	    /**
-	     * Creates new {@link MultistackEntry} with initial value.
+	     * Creates new {@link MultistackEntry} with initial value and <code>nextEntry</code>.
 	     * 
-	     * @param value	Initial value added to the this entry.
+	     * @param value		Initial value added to the this entry.
+	     * @param nextEntry	Next entry in the list.
 	     */
-	    public MultistackEntry(ValueWrapper value) {
-			this.add(value);
+	    public MultistackEntry(ValueWrapper value, MultistackEntry nextEntry) {
+			this.value = value;
+			this.nextEntry = nextEntry;
 		}
 	    
 	    /**
-	     * Adds value to the entry.
-	     * 
-	     * @param value	Value you want to add.
+	     * @return The next entry from the current entry (can be <code>null</code>).
 	     */
-	    public void add(ValueWrapper value) {
-	    	list.add(value);
-	    	size++;
+	    public MultistackEntry getNextEntry() {
+	    	return this.nextEntry;
 	    }
 	    
 	    /**
-	     * Removes the value from the entry.
-	     * 
-	     * @param index	Index from which you want to remove an object.
-	     * @throws IllegalArgumentException if the list is empty, or <code>index</code> is invalid.
+	     * @return	Returns the value of current {@link MultistackEntry}.
 	     */
-	    private void remove(int index) {
-	    	if(size == 0) throw new IllegalArgumentException("Cannot remove, list is empty.");
-	    	
-	    	if(index >= 0 && index < size) {
-	    		list.remove(index);
-	    		size--;
-	    	} else {
-	    		throw new IllegalArgumentException("Invalid index! There is no object at that position.");
-	    	}
+	    public ValueWrapper getValue() {
+	    	return this.value;
 	    }
-	    
-	    /**
-	     * Retrieves the value from the entry.
-	     * 
-	     * @param index	Index from which you want to retrieve an object.
-	     * @throws IllegalArgumentException if the list is empty, or <code>index</code> is invalid.
-	     */
-	    private ValueWrapper get(int index) {
-	    	if(size == 0) throw new IllegalArgumentException("Cannot retrieve, list is empty.");
-	    	
-	    	if(index >= 0 && index < size) {
-	    		return this.list.get(index);
-	    	} else {
-	    		throw new IllegalArgumentException("Invalid index! There is no object at that position.");
-	    	}
-	    }
-	    
-	    /**
-	     * Returns the last value from this entry.
-	     * 
-	     * @return The last value from entry.
-	     */
-	    public ValueWrapper getLast() {
-	    	return this.get(this.size-1);
-	    }
-	    
-	    /**
-	     * Remove the last value from this entry.
-	     */
-	    public void removeLast() {
-	    	this.remove(this.size-1);
-	    }
-	    
-	    /**
-	     * @return The entry size.
-	     */
-	    public int size() {
-			return this.size;
-		}
 	}
 }
