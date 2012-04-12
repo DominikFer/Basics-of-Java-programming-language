@@ -1,5 +1,8 @@
 package hr.fer.zemris.java.custom.scripting.demo;
 
+/**
+ * Class for testing {@link ObjectMultistack} and {@link ValueWrapper} functionality. 
+ */
 public class ObjectMultistackDemo {
 
 	public static void main(String[] args) {
