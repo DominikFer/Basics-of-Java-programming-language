@@ -34,6 +34,7 @@ public class ObjectMultistack {
 	 * 
 	 * @param name	Stack-key from which you want to pop the last <code>value</code>.
 	 * @return		{@link ValueWrapper} value that is popped from the stack.
+	 * @throws		IllegalArgumentException if the stack is empty.
 	 */
 	public ValueWrapper pop(String name) {
 		if(stack.containsKey(name)) {
@@ -55,6 +56,7 @@ public class ObjectMultistack {
 	 * 
 	 * @param name	Stack-key from which you want to peek the last <code>value</code>.
 	 * @return		{@link ValueWrapper} value that is peeked from the stack.
+	 * @throws		IllegalArgumentException if the stack is empty.
 	 */
 	public ValueWrapper peek(String name) {
 		if(stack.containsKey(name)) {

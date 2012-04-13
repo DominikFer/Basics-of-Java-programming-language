@@ -114,6 +114,7 @@ public class ValueWrapper {
 	 * @param second		Second value.
 	 * @param operationType	Operation you want to perform.
 	 * @return				{@link Integer} result.
+	 * @throws				IllegalArgumentException if the second parameter is zero.
 	 */
 	private int calculate(int first, int second, int operationType) {
 		switch (operationType) {
@@ -135,6 +136,7 @@ public class ValueWrapper {
 	 * @param second		Second value.
 	 * @param operationType	Operation you want to perform.
 	 * @return				{@link Double} result.
+	 * @throws				IllegalArgumentException if the second parameter is zero.
 	 */
 	private double calculate(double first, double second, int operationType) {
 		switch (operationType) {
@@ -151,9 +153,9 @@ public class ValueWrapper {
 	/**
 	 * Returns the object type.
 	 * 
-	 * @param value	Object for which you want retrieve the type.
-	 * @return		<code>1</code> if <code>null</code> or
-	 * {@link Integer}, <code>2</code> if it's {@link Double}, else throws exception.
+	 * @param value				Object for which you want retrieve the type.
+	 * @return					<code>1</code> if <code>null</code> or
+	 * {@link Integer}, 		<code>2</code> if it's {@link Double}, else throws exception.
 	 * @throws RuntimeException If the object is not <code>null</code>, {@link Integer} or {@link Double}.
 	 */
 	private int getType(Object value) {
@@ -200,9 +202,9 @@ public class ValueWrapper {
 	 * Compares the two values, currently stored value and <code>withValue</code>.
 	 * 
 	 * @param withValue	Value you want compare to.
-	 * @return			<p><code>0</code> if values are equal or both <code>null</code>.</p>
-	 * 					<p><code>-1</code> if the currently stored value is smaller then argument.</p>
-	 * 					<p><code>1</code> if the currently stored value is larger then argument.</p>
+	 * @return			<code>0</code> if values are equal or both <code>null</code>.<br />
+	 * 					<code>-1</code> if the currently stored value is smaller then argument.<br />
+	 * 					<code>1</code> if the currently stored value is larger then argument.
 	 */
 	public int numCompare(Object withValue) {
 		if(this.value == null && withValue == null) return 0;
