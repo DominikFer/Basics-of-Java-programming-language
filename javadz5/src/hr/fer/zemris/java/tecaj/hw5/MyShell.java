@@ -20,6 +20,8 @@ public class MyShell {
 		commands.put("exit", new ExitShellCommand());
 		commands.put("symbol", new SymbolShellCommand());
 		commands.put("charsets", new CharsetShellCommand());
+		commands.put("cat", new CatShellCommand());
+		commands.put("ls", new LsShellCommand());
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
