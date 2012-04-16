@@ -13,7 +13,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.AlgorithmParameterSpec;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
@@ -68,10 +70,18 @@ public class FileEncryption {
 				int outputByteCount = cipher.update(inputBuffer, 0, byteCount, outputBuffer);
 				outputStream.write(outputBuffer, 0, outputByteCount);
 			}
+			
+			byte[] outputBuffer = new byte[4096];
+			int outputByteCount =  cipher.doFinal(outputBuffer, 0);
+			outputStream.write(outputBuffer, 0, outputByteCount);
 		} catch (IOException e) {
 			return false;
 		} catch (ShortBufferException e) {
 			return false;
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
 		}
 		
 		return true;
