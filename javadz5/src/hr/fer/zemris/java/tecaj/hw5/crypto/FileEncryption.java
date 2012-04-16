@@ -57,20 +57,16 @@ public class FileEncryption {
 	public boolean process() {
 		try {
 			InputStream inputStream = Files.newInputStream(inputPath, StandardOpenOption.READ);
-			OutputStream outputStream = Files.newOutputStream(outputPath, StandardOpenOption.WRITE);
+			OutputStream outputStream = new CipherOutputStream(Files.newOutputStream(outputPath, StandardOpenOption.WRITE), cipher);
 			
 			byte[] inputBuffer = new byte[4096];
 			while(true) {
 				int byteCount = inputStream.read(inputBuffer);
 				if(byteCount < 1) break;
 				
-				byte[] outputBuffer = new byte[4096];
-				int outputByteCount = cipher.update(inputBuffer, 0, byteCount, outputBuffer);
-				outputStream.write(outputBuffer, 0, outputByteCount);
+				outputStream.write(inputBuffer, 0, byteCount);
 			}
 		} catch (IOException e) {
-			return false;
-		} catch (ShortBufferException e) {
 			return false;
 		}
 		

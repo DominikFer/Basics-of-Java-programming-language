@@ -44,7 +44,8 @@ public class Crypto {
 				mode.equals("encrypt") ? FileEncryption.ENCRYPT_MODE : FileEncryption.DECRYPT_MODE
 		);
 		if(encryption.process()) {
-			System.out.println(mode.equals("encrypt") ? "Encryption" : "Decryption" + " completed. Generated file " + inputFileName + " based on file " + outputFileName + ".");
+			System.out.println((mode.equals("encrypt") ? "Encryption" : "Decryption") + " completed. " +
+					"Generated file " + outputFileName + " based on file " + inputFileName + ".");
 		} else {
 			System.out.println("Error.");
 		}
@@ -60,9 +61,11 @@ public class Crypto {
 		String expectedHash = sc.nextLine().trim();
 		
 		if(check.hashCompare(expectedHash)) {
-			System.out.println("Digesting completed. Digest of " + fileName + " matches expected digest.");
+			System.out.println("Digesting completed. Digest of " + fileName + 
+					" matches expected digest.");
 		} else {
-			System.out.println("Digesting completed. Digest of " + fileName + " does not match the expected digest. Digest was: " + check.getDigestAsHexString());
+			System.out.println("Digesting completed. Digest of " + fileName + 
+					" does not match the expected digest. Digest was: " + check.getDigestAsHexString());
 		}
 	}
 
