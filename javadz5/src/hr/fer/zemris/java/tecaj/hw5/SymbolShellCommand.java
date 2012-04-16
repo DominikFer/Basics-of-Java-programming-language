@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class SymbolShellCommand implements ShellCommand {
+public class SymbolShellCommand extends RootShellCommand {
 
 	private BufferedWriter out;
 	
@@ -12,35 +12,32 @@ public class SymbolShellCommand implements ShellCommand {
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
 		this.out = out;
 		
-		// Should be reusable by other classes
-		while(arguments.length > 0 && arguments[arguments.length-1].equals(Character.toString(MyShell.getMoreLinesSymbol()))) {
-			try {
-				System.out.print(MyShell.getMultiLineSymbol() + " ");
-				String newLine = in.readLine();
-				arguments = updateArguments(arguments, newLine.split(" "));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		arguments = checkIfMultiLine(in, arguments);
+		
+		if(arguments.length != 1 && arguments.length != 2) {
+			return error(out, "'symbol' command should have one or two arguments.");
+		}
+			
+		if(!MyShell.containsSymbolType(arguments[0])) {
+			return error(out, "Unknown '" + arguments[0] + "' symbol.");
 		}
 		
-		try {
-			if(arguments.length == 2) {
-				changeSymbol(arguments[0], arguments[1].charAt(0));
-			} else if(arguments.length == 1) {
-				printSymbol(arguments[0]);
-			} else {
-				throw new IllegalArgumentException();
+		if(arguments.length == 2)  {
+			if(arguments[1].length() > 1) {
+				return error(out, "New symbol should have the length of 1.");
 			}
 			
-			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+			changeSymbol(arguments[0], arguments[1]);
+		} else {
+			printSymbol(arguments[0]);
 		}
 		
 		return ShellStatus.CONTINUE;
 	}
 	
-	private void changeSymbol(String name, char symbolAfter) {
+	private void changeSymbol(String name, String symbol) {
+		char symbolAfter = symbol.charAt(0);
+		
 		try {
 			char symbolBefore = MyShell.getSymbol(name);
 			
@@ -50,12 +47,11 @@ public class SymbolShellCommand implements ShellCommand {
 				MyShell.setMoreLinesSymbol(symbolAfter);
 			} else if (name.equals("MULTILINE")) {
 				MyShell.setMultiLineSymbol(symbolAfter);
-			} else {
-				throw new IllegalArgumentException();
 			}
 			
 			out.write("Symbol for " + name + " changed from '" + symbolBefore + "' to '" + symbolAfter + "'");
 			out.newLine();
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,16 +61,9 @@ public class SymbolShellCommand implements ShellCommand {
 		try {
 			out.write("Symbol for " + name + " is '" + MyShell.getSymbol(name) + "'");
 			out.newLine();
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private String[] updateArguments(String[] arguments, String[] newLine) {
-		String[] expandedArguments = new String[arguments.length-1 + newLine.length];
-		System.arraycopy(arguments, 0, expandedArguments, 0, arguments.length-1);
-		System.arraycopy(newLine, 0, expandedArguments, arguments.length-1, newLine.length);
-		
-		return expandedArguments;
 	}
 }

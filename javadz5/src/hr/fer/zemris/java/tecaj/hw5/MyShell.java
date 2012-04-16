@@ -5,13 +5,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MyShell {
 
 	private static Map<String, ShellCommand> commands = new HashMap<String, ShellCommand>();
+	
 	private static char PROMPT = '>';
 	private static char MORELINES = '\\';
 	private static char MULTILINE = '|';
@@ -19,6 +19,7 @@ public class MyShell {
 	public static void main(String[] args) {
 		commands.put("exit", new ExitShellCommand());
 		commands.put("symbol", new SymbolShellCommand());
+		commands.put("charsets", new CharsetShellCommand());
 		
 		System.out.println("Welcome to MyShell v 1.0");
 
@@ -27,9 +28,10 @@ public class MyShell {
 		
 		ShellStatus status = ShellStatus.CONTINUE;
 		while(status == ShellStatus.CONTINUE) {
-			System.out.print(PROMPT + " ");
-			
 			try {
+				out.write(PROMPT + " ");
+				out.flush();
+				
 				String userInput = in.readLine();
 				
 				String[] userInputArray = userInput.split(" ");
@@ -37,6 +39,12 @@ public class MyShell {
 				String command = userInputArray[0];
 				String[] commandArgs = getCommandArguments(userInputArray);
 				
+				if(!commands.containsKey(command)) {
+					out.write("Unknown command.");
+					out.newLine();
+					out.flush();
+					continue;
+				}
 				status = commands.get(command).executeCommand(in, out, commandArgs);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -59,8 +67,14 @@ public class MyShell {
 		} else if(name.equals("MULTILINE")) {
 			return getMultiLineSymbol();
 		} else {
-			throw new IllegalArgumentException();
+			return ' ';
 		}
+	}
+	
+	public static boolean containsSymbolType(String name) {
+		if(name.equals("PROMPT") || name.equals("MULTILINE") || name.equals("MORELINES")) return true;
+		
+		return false;
 	}
 
 	public static char getPromptSymbol() {
