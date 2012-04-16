@@ -32,7 +32,7 @@ public class CipherOutputStream extends OutputStream {
 	public void write(int b) throws IOException {
 		try {
 			byte[] outputBuffer = new byte[4096];
-			int outputByteCount = cipher.update(ByteBuffer.allocate(4).putInt(b).array(), 0, 1, outputBuffer);
+			int outputByteCount = cipher.update(ByteBuffer.allocate(1).putInt(b).array(), 0, 1, outputBuffer);
 			stream.write(outputBuffer, 0, outputByteCount);
 		} catch (ShortBufferException e) {
 			e.printStackTrace();
