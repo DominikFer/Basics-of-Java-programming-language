@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class SymbolShellCommand extends RootShellCommand {
+public class SymbolShellCommand implements ShellCommand {
 
 	private BufferedWriter out;
 	
@@ -12,19 +12,19 @@ public class SymbolShellCommand extends RootShellCommand {
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
 		this.out = out;
 		
-		arguments = checkIfMultiLine(in, arguments);
+		arguments = ShellUtils.checkIfMultiLine(in, arguments);
 		
 		if(arguments.length != 1 && arguments.length != 2) {
-			return error(out, "'symbol' command should have one or two arguments.");
+			return ShellUtils.error(out, "'symbol' command should have one or two arguments.");
 		}
 			
 		if(!MyShell.containsSymbolType(arguments[0])) {
-			return error(out, "Unknown '" + arguments[0] + "' symbol.");
+			return ShellUtils.error(out, "Unknown '" + arguments[0] + "' symbol.");
 		}
 		
 		if(arguments.length == 2)  {
 			if(arguments[1].length() > 1) {
-				return error(out, "New symbol should have the length of 1.");
+				return ShellUtils.error(out, "New symbol should have the length of 1.");
 			}
 			
 			changeSymbol(arguments[0], arguments[1]);

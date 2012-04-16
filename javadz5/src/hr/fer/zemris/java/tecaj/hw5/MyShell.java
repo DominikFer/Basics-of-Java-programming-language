@@ -21,10 +21,16 @@ public class MyShell {
 		commands.put("symbol", new SymbolShellCommand());
 		commands.put("charsets", new CharsetShellCommand());
 		
-		System.out.println("Welcome to MyShell v 1.0");
-
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		try {
+			out.write("Welcome to MyShell v 1.0");
+			out.newLine();
+			out.flush();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
 		ShellStatus status = ShellStatus.CONTINUE;
 		while(status == ShellStatus.CONTINUE) {
@@ -72,7 +78,8 @@ public class MyShell {
 	}
 	
 	public static boolean containsSymbolType(String name) {
-		if(name.equals("PROMPT") || name.equals("MULTILINE") || name.equals("MORELINES")) return true;
+		if(name.equals("PROMPT") || name.equals("MULTILINE") || name.equals("MORELINES"))
+			return true;
 		
 		return false;
 	}
