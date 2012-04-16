@@ -23,6 +23,7 @@ public class MyShell {
 		commands.put("cat", new CatShellCommand());
 		commands.put("ls", new LsShellCommand());
 		commands.put("tree", new TreeShellCommand());
+		commands.put("mkdir", new MkdirShellCommand());
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
