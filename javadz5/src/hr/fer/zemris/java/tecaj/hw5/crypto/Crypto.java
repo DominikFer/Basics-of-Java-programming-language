@@ -36,12 +36,21 @@ public class Crypto {
 		//initializationVector = sc.nextLine().trim();
 		initializationVector = "000102030405060708090a0b0c0d0e0f";
 		
+		int cipherMode = 0;
+		if(mode.equals("encrypt")) {
+			cipherMode = FileEncryption.ENCRYPT_MODE;
+		} else if(mode.equals("decrypt")) {
+			cipherMode = FileEncryption.DECRYPT_MODE;
+		} else {
+			throw new IllegalArgumentException();
+		}
+		
 		FileEncryption encryption = new FileEncryption(
 				inputFileName,
 				outputFileName,
 				encryptionKey,
 				initializationVector,
-				mode.equals("encrypt") ? FileEncryption.ENCRYPT_MODE : FileEncryption.DECRYPT_MODE
+				cipherMode
 		);
 		if(encryption.process()) {
 			System.out.println((mode.equals("encrypt") ? "Encryption" : "Decryption") + " completed. " +

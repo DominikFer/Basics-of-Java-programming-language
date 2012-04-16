@@ -74,15 +74,15 @@ public class FileEncryption {
 			byte[] outputBuffer = new byte[4096];
 			int outputByteCount =  cipher.doFinal(outputBuffer, 0);
 			outputStream.write(outputBuffer, 0, outputByteCount);
-		} catch (IOException e) {
-			return false;
 		} catch (ShortBufferException e) {
 			return false;
 		} catch (IllegalBlockSizeException e) {
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
 			e.printStackTrace();
-		}
+		} catch (IOException e) {
+			return false;
+		} 
 		
 		return true;
 	}
