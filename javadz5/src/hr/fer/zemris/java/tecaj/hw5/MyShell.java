@@ -22,6 +22,7 @@ public class MyShell {
 		commands.put("charsets", new CharsetShellCommand());
 		commands.put("cat", new CatShellCommand());
 		commands.put("ls", new LsShellCommand());
+		commands.put("tree", new TreeShellCommand());
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));

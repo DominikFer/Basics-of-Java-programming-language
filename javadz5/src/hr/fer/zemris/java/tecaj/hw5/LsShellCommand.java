@@ -59,7 +59,9 @@ public class LsShellCommand implements ShellCommand {
 			
 			if(depth > 0) printLine(getPermissions(dir), directorySize, getFormattedDate(dir), directoryName);
 
-			if(++depth > 1)
+			depth++;
+			
+			if(depth > 1)
 				return FileVisitResult.SKIP_SUBTREE;
 			else
 				return FileVisitResult.CONTINUE;
