@@ -32,10 +32,9 @@ public class LsShellCommand implements ShellCommand {
 		}
 		
 		try {
-			DirectoryVisitor radnik = new DirectoryVisitor();
-			Files.walkFileTree(directory, radnik);
+			Files.walkFileTree(directory, new DirectoryVisitor());
 		} catch (IOException e) {
-			
+			return ShellUtils.error(out, "Error with IO operation.");
 		}
 		
 		return ShellStatus.CONTINUE;

@@ -28,7 +28,7 @@ public class TreeShellCommand implements ShellCommand {
 		try {
 			Files.walkFileTree(directory, new PrintTree());
 		} catch (IOException e) {
-			
+			return ShellUtils.error(out, "Error with IO operation.");
 		}
 		
 		return ShellStatus.CONTINUE;
