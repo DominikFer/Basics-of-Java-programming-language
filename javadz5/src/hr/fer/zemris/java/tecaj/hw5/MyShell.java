@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ public class MyShell {
 		commands.put("ls", new LsShellCommand());
 		commands.put("tree", new TreeShellCommand());
 		commands.put("mkdir", new MkdirShellCommand());
+		commands.put("copy", new CopyShellCommand());
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -42,31 +44,43 @@ public class MyShell {
 				out.write(PROMPT + " ");
 				out.flush();
 				
-				String userInput = in.readLine();
+				String[] userInput = readLines(in);
 				
-				String[] userInputArray = userInput.split(" ");
+				String commandName = userInput[0];
+				String[] commandArgs = Arrays.copyOfRange(userInput, 1, userInput.length);
 				
-				String command = userInputArray[0];
-				String[] commandArgs = getCommandArguments(userInputArray);
+				ShellCommand command = commands.get(commandName);
 				
-				if(!commands.containsKey(command)) {
+				if(command == null) {
 					out.write("Unknown command.");
 					out.newLine();
 					out.flush();
-					continue;
+				} else {
+					status = command.executeCommand(in, out, commandArgs);
 				}
-				status = commands.get(command).executeCommand(in, out, commandArgs);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
-	private static String[] getCommandArguments(String[] userInputArray) {
-		String[] commandArgs = new String[userInputArray.length-1];
-		System.arraycopy(userInputArray, 1, commandArgs, 0, userInputArray.length-1);
+	
+	private static String[] readLines(BufferedReader in) {
+		String line = "";
 		
-		return commandArgs;
+		try {
+			line = in.readLine();
+			
+			while(line.endsWith(Character.toString(MyShell.getMoreLinesSymbol()))) {
+				System.out.print(MyShell.getMultiLineSymbol() + " ");
+				String newLine = in.readLine();
+				line = line.substring(0, line.length()-1);
+				line += newLine;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return line.split(" ");
 	}
 	
 	public static char getSymbol(String name) {

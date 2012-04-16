@@ -20,8 +20,6 @@ public class LsShellCommand implements ShellCommand {
 
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
-		arguments = ShellUtils.checkIfMultiLine(in, arguments);
-		
 		if(arguments.length != 1) {
 			return ShellUtils.error(out, "'ls' command accepts one arguments - directory you want to list.");
 		}

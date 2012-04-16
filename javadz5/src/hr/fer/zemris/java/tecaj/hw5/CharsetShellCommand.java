@@ -11,8 +11,6 @@ public class CharsetShellCommand implements ShellCommand {
 
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
-		arguments = ShellUtils.checkIfMultiLine(in, arguments);
-		
 		if(arguments.length != 0) {
 			return ShellUtils.error(out, "'charsets' command doesn't accept any argument.");
 		}

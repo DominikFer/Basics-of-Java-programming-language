@@ -7,12 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class MkdirShellCommand implements ShellCommand {
+public class CopyShellCommand implements ShellCommand {
 
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
-		if(arguments.length != 1) {
-			return ShellUtils.error(out, "'mkdir' command accepts one arguments - directory you want to create.");
+		if(arguments.length != 2) {
+			return ShellUtils.error(out, "'copy' command accepts two arguments - file you want to copy and file/directory you want copy to.");
 		}
 		
 		Path directory = Paths.get(arguments[0]);

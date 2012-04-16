@@ -14,8 +14,6 @@ public class CatShellCommand implements ShellCommand {
 
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
-		arguments = ShellUtils.checkIfMultiLine(in, arguments);
-		
 		if(arguments.length != 1 && arguments.length != 2) {
 			return ShellUtils.error(out, "'cat' command accepts one or two arguments.");
 		}
