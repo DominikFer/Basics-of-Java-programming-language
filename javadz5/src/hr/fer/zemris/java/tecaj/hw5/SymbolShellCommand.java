@@ -16,7 +16,7 @@ public class SymbolShellCommand implements ShellCommand {
 			return ShellUtils.error(out, "'symbol' command accepts one or two arguments.");
 		}
 			
-		if(!MyShell.containsSymbolType(arguments[0])) {
+		if(!ShellSymbols.containsSymbolType(arguments[0])) {
 			return ShellUtils.error(out, "Unknown '" + arguments[0] + "' symbol.");
 		}
 		
@@ -37,14 +37,14 @@ public class SymbolShellCommand implements ShellCommand {
 		char symbolAfter = symbol.charAt(0);
 		
 		try {
-			char symbolBefore = MyShell.getSymbol(name);
+			char symbolBefore = ShellSymbols.getSymbol(name);
 			
 			if(name.equals("PROMPT")) {
-				MyShell.setPromptSymbol(symbolAfter);
+				ShellSymbols.setPromptSymbol(symbolAfter);
 			} else if (name.equals("MORELINES")) {
-				MyShell.setMoreLinesSymbol(symbolAfter);
+				ShellSymbols.setMoreLinesSymbol(symbolAfter);
 			} else if (name.equals("MULTILINE")) {
-				MyShell.setMultiLineSymbol(symbolAfter);
+				ShellSymbols.setMultiLineSymbol(symbolAfter);
 			}
 			
 			out.write("Symbol for " + name + " changed from '" + symbolBefore + "' to '" + symbolAfter + "'");
@@ -57,7 +57,7 @@ public class SymbolShellCommand implements ShellCommand {
 	
 	private void printSymbol(String name) {
 		try {
-			out.write("Symbol for " + name + " is '" + MyShell.getSymbol(name) + "'");
+			out.write("Symbol for " + name + " is '" + ShellSymbols.getSymbol(name) + "'");
 			out.newLine();
 			out.flush();
 		} catch (IOException e) {

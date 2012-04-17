@@ -13,10 +13,6 @@ public class MyShell {
 
 	private static Map<String, ShellCommand> commands = new HashMap<String, ShellCommand>();
 	
-	private static char PROMPT = '>';
-	private static char MORELINES = '\\';
-	private static char MULTILINE = '|';
-	
 	public static void main(String[] args) {
 		commands.put("exit", new ExitShellCommand());
 		commands.put("symbol", new SymbolShellCommand());
@@ -42,7 +38,7 @@ public class MyShell {
 		ShellStatus status = ShellStatus.CONTINUE;
 		while(status == ShellStatus.CONTINUE) {
 			try {
-				out.write(PROMPT + " ");
+				out.write(ShellSymbols.PROMPT + " ");
 				out.flush();
 				
 				String[] userInput = readLines(in);
@@ -71,8 +67,8 @@ public class MyShell {
 		try {
 			line = in.readLine();
 			
-			while(line.endsWith(" " + Character.toString(MyShell.getMoreLinesSymbol()))) {
-				System.out.print(MyShell.getMultiLineSymbol() + " ");
+			while(line.endsWith(" " + Character.toString(ShellSymbols.MORELINES))) {
+				System.out.print(ShellSymbols.MULTILINE + " ");
 				String newLine = in.readLine();
 				line = line.substring(0, line.length()-1);
 				line += newLine;
@@ -82,48 +78,5 @@ public class MyShell {
 		}
 		
 		return line.split(" ");
-	}
-	
-	public static char getSymbol(String name) {
-		if(name.equals("PROMPT")) {
-			return getPromptSymbol();
-		} else if(name.equals("MORELINES")) {
-			return getMoreLinesSymbol();
-		} else if(name.equals("MULTILINE")) {
-			return getMultiLineSymbol();
-		} else {
-			return ' ';
-		}
-	}
-	
-	public static boolean containsSymbolType(String name) {
-		if(name.equals("PROMPT") || name.equals("MULTILINE") || name.equals("MORELINES"))
-			return true;
-		
-		return false;
-	}
-
-	public static char getPromptSymbol() {
-		return PROMPT;
-	}
-	
-	public static void setPromptSymbol(char symbol) {
-		PROMPT = symbol;
-	}
-	
-	public static char getMoreLinesSymbol() {
-		return MORELINES;
-	}
-	
-	public static void setMoreLinesSymbol(char symbol) {
-		MORELINES = symbol;
-	}
-	
-	public static char getMultiLineSymbol() {
-		return MULTILINE;
-	}
-	
-	public static void setMultiLineSymbol(char symbol) {
-		MULTILINE = symbol;
 	}
 }

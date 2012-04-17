@@ -49,10 +49,10 @@ public class HexdumpShellCommand implements ShellCommand {
 	private String bytesToHex(byte[] bytes, int count, int maxCount) {
 		StringBuffer sb = new StringBuffer();
 	    for (int i = 0; i < bytes.length; i++) {
-	    	if(i >= count) {
-	    		sb.append("  ");
-	    	} else {
+	    	if(i < count) {
 	    		sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+	    	} else {
+	    		sb.append("  ");
 	    	}
 	    	
 	    	if(i == maxCount/2-1)
