@@ -26,6 +26,7 @@ public class MyShell {
 		commands.put("tree", new TreeShellCommand());
 		commands.put("mkdir", new MkdirShellCommand());
 		commands.put("copy", new CopyShellCommand());
+		commands.put("hexdump", new HexdumpShellCommand());
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -70,7 +71,7 @@ public class MyShell {
 		try {
 			line = in.readLine();
 			
-			while(line.endsWith(Character.toString(MyShell.getMoreLinesSymbol()))) {
+			while(line.endsWith(" " + Character.toString(MyShell.getMoreLinesSymbol()))) {
 				System.out.print(MyShell.getMultiLineSymbol() + " ");
 				String newLine = in.readLine();
 				line = line.substring(0, line.length()-1);

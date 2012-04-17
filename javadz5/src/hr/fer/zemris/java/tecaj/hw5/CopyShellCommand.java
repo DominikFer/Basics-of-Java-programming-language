@@ -3,11 +3,14 @@ package hr.fer.zemris.java.tecaj.hw5;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileAttribute;
 
 public class CopyShellCommand implements ShellCommand {
 
@@ -30,22 +33,40 @@ public class CopyShellCommand implements ShellCommand {
 			Path destinationPath = Paths.get(arguments[1]);
 			
 			if(Files.exists(destinationPath)) {
-				out.write("Destination file already exists, do you want to overwrite it? [YES/NO]");
-				out.newLine();
-				out.flush();
+				if(Files.isDirectory(destinationPath)) {
+					destinationPath = Paths.get(arguments[1] += "/" + arguments[0]);
+				}
 				
-				if(in.readLine().toLowerCase().equals("yes")) {
-					Files.copy(originalFile, destinationPath, StandardCopyOption.REPLACE_EXISTING);
-				} else if(in.readLine().toLowerCase().equals("no")) {
-					return ShellUtils.error(out, "No file is copied.");
+				if(Files.exists(destinationPath)) {
+					out.write("Destination file already exists, do you want to overwrite it? [YES/NO]");
+					out.newLine();
+					out.flush();
+					
+					String answer = in.readLine().toLowerCase();
+					if(answer.equals("yes")) {
+						Files.copy(originalFile, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+					} else if(answer.equals("no")) {
+						return ShellUtils.error(out, "No file is copied.");
+					} else {
+						return ShellUtils.error(out, "Invalid command. No file is copied.");
+					}
 				} else {
-					return ShellUtils.error(out, "Invalid command.");
+					Files.copy(originalFile, destinationPath);
 				}
 			} else {
-				Files.copy(originalFile, destinationPath);
+				try {
+					Files.copy(originalFile, destinationPath);
+				} catch(NoSuchFileException e) {
+					Files.createDirectories(destinationPath);
+					
+					if(!arguments[1].contains(".")) {
+						destinationPath = Paths.get(arguments[1] += "/" + arguments[0]);
+					}
+					Files.copy(originalFile, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+				}
 			}
 			
-			out.write("File '" + originalFile.toFile().getName() + "' has been successfully copied to '" + destinationPath.toFile().getName() + "'.");
+			out.write("File '" + arguments[0] + "' has been successfully copied to '" + arguments[1] + "'.");
 			out.newLine();
 			out.flush();
 		} catch (IOException e) {

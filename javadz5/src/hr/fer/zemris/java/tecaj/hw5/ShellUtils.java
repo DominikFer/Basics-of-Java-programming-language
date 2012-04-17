@@ -1,6 +1,5 @@
 package hr.fer.zemris.java.tecaj.hw5;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
