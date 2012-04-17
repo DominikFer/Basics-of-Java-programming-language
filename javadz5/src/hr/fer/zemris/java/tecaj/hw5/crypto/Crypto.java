@@ -29,12 +29,10 @@ public class Crypto {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("Please provide password as hex-encoded text:");
-		//encryptionKey = sc.nextLine().trim();
-		encryptionKey = "a52217e3ee213ef1ffdee3a192e2ac7e";
+		encryptionKey = sc.nextLine().trim();
 		
 		System.out.println("Please provide initialization vector as hex-encoded text:");
-		//initializationVector = sc.nextLine().trim();
-		initializationVector = "000102030405060708090a0b0c0d0e0f";
+		initializationVector = sc.nextLine().trim();
 		
 		int cipherMode = 0;
 		if(mode.equals("encrypt")) {
