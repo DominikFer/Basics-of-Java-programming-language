@@ -16,31 +16,41 @@ import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * List the provided directory (root-level only).
+ */
 public class LsShellCommand implements ShellCommand {
 
+	private BufferedWriter out;
+	
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
+		this.out = out;
+		
 		if(arguments.length != 1) {
-			return ShellUtils.error(out, "'ls' command accepts one arguments - directory you want to list.");
+			return MyShell.error(out, "'ls' command accepts one arguments - directory you want to list.");
 		}
 		
 		Path directory = Paths.get(arguments[0]);
 		if(!directory.toFile().isDirectory()) {
-			return ShellUtils.error(out, "'" + arguments[0] + "' is not a directory.");
+			return MyShell.error(out, "'" + arguments[0] + "' is not a directory.");
 		}
 		
 		try {
 			Files.walkFileTree(directory, new DirectoryVisitor());
 		} catch (IOException e) {
-			return ShellUtils.error(out, "Error with IO operation.");
+			return MyShell.error(out, "Error with IO operation.");
 		}
 		
 		return ShellStatus.CONTINUE;
 	}
 	
-	class DirectoryVisitor implements FileVisitor<Path> {
+	/**
+	 * {@link FileVisitor} class which prints the actual content of the directory. 
+	 */
+	private class DirectoryVisitor implements FileVisitor<Path> {
 		
-		int depth;
+		private int depth;
 		
 		@Override
 		public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
@@ -79,6 +89,12 @@ public class LsShellCommand implements ShellCommand {
 			return FileVisitResult.CONTINUE;
 		}
 
+		/**
+		 * Returns the directory size.
+		 * 
+		 * @param dir	Directory for which you want calculate it's size.
+		 * @return		Size of the provided directory.
+		 */
 		private long getDirectorySize(File dir) {
 			long length = 0;
 		    for (File file : dir.listFiles()) {
@@ -90,6 +106,14 @@ public class LsShellCommand implements ShellCommand {
 		    return length;
 		}
 		
+		/**
+		 * Returns the file/directory permissions as a string ('drwx').
+		 * If something is not available it's replaced with the dash '-' for ex.
+		 * if it's not readable it's 'd-wx'.
+		 * 
+		 * @param path		File/directory for which you want check the permissions.
+		 * @return			'drwx' representation of the permissions.
+		 */
 		private String getPermissions(Path path) {
 			char directory = '-';
 			if(Files.isDirectory(path)) directory = 'd';
@@ -106,18 +130,44 @@ public class LsShellCommand implements ShellCommand {
 			return new StringBuilder().append(directory).append(readable).append(writeable).append(executable).toString();
 		}
 		
+		/**
+		 * Prints the actual line to the console.
+		 * 
+		 * @param permissions			Permission of the file (formatted as 'drwx').
+		 * @param fileSize				File size.
+		 * @param formattedDateTime		File creation date (formatted).
+		 * @param fileName				File name.
+		 */
 		private void printLine(String permissions, long fileSize, String formattedDateTime, String fileName) {
-			System.out.println(String.format("%s %10d %s %s", permissions, fileSize, formattedDateTime, fileName));
+			try {
+				out.write(String.format("%s %10d %s %s", permissions, fileSize, formattedDateTime, fileName));
+				out.newLine();
+				out.flush();
+			} catch (IOException e) {
+				System.out.println("Error with output buffer.");
+			}
 		}
 		
-		private String getFormattedDate(Path path) throws IOException {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			
-			BasicFileAttributeView faView = Files.getFileAttributeView(path,
-					BasicFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
-			BasicFileAttributes attributes = faView.readAttributes();
-			FileTime fileTime = attributes.creationTime();
-			return sdf.format(new Date(fileTime.toMillis()));
+		/**
+		 * Returns the file creation date properly formatted.
+		 * 
+		 * @param path			
+		 * @return				
+		 * @throws IOException	
+		 */
+		private String getFormattedDate(Path path) {
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				
+				BasicFileAttributeView faView = Files.getFileAttributeView(path,
+						BasicFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+				BasicFileAttributes attributes = faView.readAttributes();
+				FileTime fileTime = attributes.creationTime();
+				return sdf.format(new Date(fileTime.toMillis()));
+			} catch (IOException e) {
+				MyShell.error(out, "File attributed (creation date) could not be read.");
+				return "";
+			}
 		}
 	}
 }

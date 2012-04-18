@@ -9,22 +9,25 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+/**
+ * Copy a file to another file or directory. 
+ */
 public class CopyShellCommand implements ShellCommand {
 
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
 		if(arguments.length != 2) {
-			return ShellUtils.error(out, "'copy' command accepts two arguments - file you want to copy and file/directory you want copy to.");
+			return MyShell.error(out, "'copy' command accepts two arguments - file you want to copy and file/directory you want copy to.");
 		}
 		
 		try {
 			Path originalFile = Paths.get(arguments[0]);
 			if(Files.isDirectory(originalFile)) {
-				return ShellUtils.error(out, "First argument is a directory, should be a file.");
+				return MyShell.error(out, "First argument is a directory, should be a file.");
 			}
 			
 			if(!Files.exists(originalFile)) {
-				return ShellUtils.error(out, "Source file does not exist.");
+				return MyShell.error(out, "Source file does not exist.");
 			}
 			
 			Path destinationPath = Paths.get(arguments[1]);
@@ -43,9 +46,9 @@ public class CopyShellCommand implements ShellCommand {
 					if(answer.equals("yes")) {
 						Files.copy(originalFile, destinationPath, StandardCopyOption.REPLACE_EXISTING);
 					} else if(answer.equals("no")) {
-						return ShellUtils.error(out, "No file is copied.");
+						return MyShell.error(out, "No file is copied.");
 					} else {
-						return ShellUtils.error(out, "Invalid command. No file is copied.");
+						return MyShell.error(out, "Invalid command. No file is copied.");
 					}
 				} else {
 					Files.copy(originalFile, destinationPath);
@@ -67,7 +70,7 @@ public class CopyShellCommand implements ShellCommand {
 			out.newLine();
 			out.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Error with I/O buffers.");
 		}
 		
 		return ShellStatus.CONTINUE;

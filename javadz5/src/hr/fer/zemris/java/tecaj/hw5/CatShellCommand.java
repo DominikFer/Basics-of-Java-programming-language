@@ -4,18 +4,22 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 
+/**
+ *  Write the content of the given file to the console.
+ */
 public class CatShellCommand implements ShellCommand {
 
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
 		if(arguments.length != 1 && arguments.length != 2) {
-			return ShellUtils.error(out, "'cat' command accepts one or two arguments.");
+			return MyShell.error(out, "'cat' command accepts one or two arguments.");
 		}
 		
 		Charset charset = Charset.defaultCharset();
@@ -23,9 +27,9 @@ public class CatShellCommand implements ShellCommand {
 			try {
 				charset = Charset.forName(arguments[1]);	
 			} catch (IllegalCharsetNameException e) {
-				return ShellUtils.error(out, "Charset name is not valid.");
+				return MyShell.error(out, "Charset name is not valid.");
 			} catch (UnsupportedCharsetException e) {
-				return ShellUtils.error(out, "Charset '" + arguments[1] + "' is not supporeted on this machine.");
+				return MyShell.error(out, "Charset '" + arguments[1] + "' is not supporeted on this machine.");
 			}
 		}
 		
@@ -43,8 +47,10 @@ public class CatShellCommand implements ShellCommand {
 			
 			out.newLine();
 			out.flush();
+		} catch (FileNotFoundException e) {
+			 return MyShell.error(out, "File '" + arguments[0] + "' is not found.");
 		} catch (IOException e) {
-			return ShellUtils.error(out, "File '" + arguments[0] + "' is not found.");
+			System.out.println("Error with I/O buffers.");
 		}
 		
 		return ShellStatus.CONTINUE;

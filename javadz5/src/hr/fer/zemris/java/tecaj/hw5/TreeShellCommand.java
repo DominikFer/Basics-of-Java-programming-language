@@ -10,29 +10,39 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 
+/**
+ * Print a tree-list of provided directory. 
+ */
 public class TreeShellCommand implements ShellCommand {
 
+	private BufferedWriter out;
+	
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
+		this.out = out;
+		
 		if(arguments.length != 1) {
-			return ShellUtils.error(out, "'tree' command accepts one arguments - directory you want to list.");
+			return MyShell.error(out, "'tree' command accepts one arguments - directory you want to list.");
 		}
 		
 		Path directory = Paths.get(arguments[0]);
 		if(!directory.toFile().isDirectory()) {
-			return ShellUtils.error(out, "'" + arguments[0] + "' is not a directory.");
+			return MyShell.error(out, "'" + arguments[0] + "' is not a directory.");
 		}
 		
 		try {
 			Files.walkFileTree(directory, new PrintTree());
 		} catch (IOException e) {
-			return ShellUtils.error(out, "Error with IO operation.");
+			return MyShell.error(out, "Error with I/O operations.");
 		}
 		
 		return ShellStatus.CONTINUE;
 	}
 	
-	class PrintTree implements FileVisitor<Path> {
+	/**
+	 * Class which runs through the directory printing out out all the files and sub-directories. 
+	 */
+	private class PrintTree implements FileVisitor<Path> {
 		
 		int depth;
 		
@@ -59,7 +69,10 @@ public class TreeShellCommand implements ShellCommand {
 		@Override
 		public FileVisitResult visitFile(Path file, BasicFileAttributes arg1) throws IOException {
 			String fileName = file.toFile().getName();
-			System.out.println(String.format("%" + (depth*2) + "s", "") + fileName);
+			
+			out.write(String.format("%" + (depth*2) + "s", "") + fileName);
+			out.newLine();
+			out.flush();
 			
 			return FileVisitResult.CONTINUE;
 		}

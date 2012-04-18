@@ -7,12 +7,15 @@ import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Returns the list of the all available charsets on this machine. 
+ */
 public class CharsetShellCommand implements ShellCommand {
 
 	@Override
 	public ShellStatus executeCommand(BufferedReader in, BufferedWriter out, String[] arguments) {
 		if(arguments.length != 0) {
-			return ShellUtils.error(out, "'charsets' command doesn't accept any argument.");
+			return MyShell.error(out, "'charsets' command doesn't accept any argument.");
 		}
 		
 		Map<String, Charset> charsets = Charset.availableCharsets();
@@ -24,7 +27,7 @@ public class CharsetShellCommand implements ShellCommand {
 				out.flush();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Error with I/O buffers.");
 		}
 		
 		return ShellStatus.CONTINUE;
