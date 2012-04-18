@@ -24,7 +24,8 @@ import java.util.Map;
  * <li><code>hexdump</code> - dumps file content as a hex-values.</li>
  * <li><code>exit</code> - exits the console.</li>
  * </ul>
- * @version 1.0 
+ * @version 1.0
+ * @author Sven Kapuðija
  */
 public class MyShell {
 
@@ -109,13 +110,20 @@ public class MyShell {
 		return line.split(" ");
 	}
 	
+	/**
+	 * Prints out the error message.
+	 * 
+	 * @param out		Writer to write a message.
+	 * @param message	Error message.
+	 * @return			ShellStatus.CONTINUE if shell should continue working.
+	 */
 	public static ShellStatus error(BufferedWriter out, String message) {
 		try {
 			out.write(message);
 			out.newLine();
 			out.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Error with output buffer.");
 		}
 		
 		return ShellStatus.CONTINUE;

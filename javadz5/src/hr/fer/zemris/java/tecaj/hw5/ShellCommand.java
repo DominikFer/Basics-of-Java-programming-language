@@ -12,10 +12,8 @@ public interface ShellCommand {
 	/**
 	 * Executes the command (user input) from the console.
 	 * 
-	 * @param in			Wrapped <code>stdin</code> which will
-	 * 						be used for reading in additional parameters.
-	 * @param out			Wrapped <code>stout</code> which will
-	 * 						be used for writing actual result(s).
+	 * @param in			Reader which will be used for reading in additional parameters.
+	 * @param out			Writer which will be used for writing actual result(s).
 	 * @param arguments		User arguments (commands).
 	 * @return				<code>ShellStatus.CONTINUE</code> if the shell should
 	 * 						continue working, <code>ShellStatus.TERMINATE</code> otherwise.

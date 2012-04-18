@@ -19,8 +19,8 @@ public class ShellSymbols {
 	 * Returns the current symbol of the <code>MyShell</code>.
 	 * 
 	 * @param name	Type of the symbol you want to retrieve. Available
-	 * ones are: <code>PROMPT</code>, <code>MORELINES</code> and
-	 * <code>MULTILINE</code>.
+	 * 				ones are: <code>PROMPT</code>, <code>MORELINES</code> and
+	 * 				<code>MULTILINE</code>.
 	 * @return		Current symbol representation for that symbol-type.
 	 */
 	public static char getSymbol(String name) {
