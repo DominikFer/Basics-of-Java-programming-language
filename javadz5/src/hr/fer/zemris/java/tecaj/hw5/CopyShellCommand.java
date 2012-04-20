@@ -37,9 +37,8 @@ public class CopyShellCommand implements ShellCommand {
 			if (!Files.exists(destinationPath) && !Files.exists(destinationPath.getParent())) {
 				return MyShell.error(out, "Destination directory does not exist.");
 			} else if (Files.isDirectory(destinationPath)) {
-				if (!destinationPathString.endsWith(File.separator)) {
+				if (!destinationPathString.endsWith(File.separator))
 					destinationPathString += File.separator;
-				}
 				destinationPath = Paths.get(destinationPathString += originalFile.getFileName());
 			}
 	            
@@ -48,10 +47,10 @@ public class CopyShellCommand implements ShellCommand {
 				out.newLine();
 				out.flush();
 				
-				String answer = in.readLine();
+				String answer = in.readLine().toLowerCase();
 				if(answer.equals("n")) {
 					return MyShell.error(out, "No file is copied.");
-				} else if (!answer.equals("Y")) {
+				} else if (!answer.equals("y")) {
 					return MyShell.error(out, "Invalid command. No file is copied.");
 				}
 			}
