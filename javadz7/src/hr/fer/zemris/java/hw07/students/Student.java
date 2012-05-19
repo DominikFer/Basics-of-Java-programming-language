@@ -4,7 +4,7 @@ package hr.fer.zemris.java.hw07.students;
  * Class which defines single {@link Student} record. 
  */
 public class Student {
-
+	
 	private String studentID;
 	private String lastName;
 	private String firstName;
@@ -54,9 +54,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [studentID=" + studentID + ", lastName=" + lastName
-				+ ", firstName=" + firstName + "]";
+		return "Student [studentID=" + studentID + ", lastName=" + lastName + ", firstName=" + firstName + "]";
 	}
 
-	
 }
