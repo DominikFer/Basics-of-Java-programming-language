@@ -4,7 +4,7 @@ package hr.fer.zemris.java.hw07.students;
  * Listener which will fire if any change is made in the database.
  */
 public interface StudentDBModificationListener {
-
+	
 	/**
 	 * Students are added to the database from the <code>fromIndex</code>
 	 * to the <code>toIndex</code>.
