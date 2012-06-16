@@ -1,0 +1,22 @@
+Unutar sekcije "Problem 2", neposredno prije podnaslova "Part 2" treba još stajati tekst:
+
+Add also following public methods to UnosForm:
+
+
+                       public boolean hasErrorFor(String key);
+                       - returns true if there is stored error for given key in errors map
+
+
+
+                       public String getErrorFor(String key);
+                       - returns error text associated with a given key in errors map or null if no such association exists
+
+
+
+                       public void clearErrorFor(String key);
+                       - deletes error associated with a given key in errors map; if no such association exists, method does nothing.
+
+
+U istom zadatku piše da ne smijete hardkodirati URL za pokretanje akcije veæ da ga trebate
+utvrðivati dinamièki: to znaèi da minimalno trebate barem contextPath utvrðivati i koristiti
+dinamièki; hoæete li dinamièki utvrðivati i više od toga ostavlja se Vama na volju.
