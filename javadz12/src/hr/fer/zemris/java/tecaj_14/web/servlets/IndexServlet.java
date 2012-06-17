@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ *	Application homepage (redirects to {@link HomepageServlet}). 
+ */
 @WebServlet("/index.jsp")
 public class IndexServlet extends HttpServlet {
 

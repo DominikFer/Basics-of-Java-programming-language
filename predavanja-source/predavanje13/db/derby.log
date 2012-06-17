@@ -1,7 +1,7 @@
-Sun Jun 17 00:02:14 CEST 2012 : Apache Derby Network Server - 10.8.1.2 - (1095077) started and ready to accept connections on port 1527
+Sun Jun 17 18:48:31 CEST 2012 : Apache Derby Network Server - 10.8.1.2 - (1095077) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sun Jun 17 00:02:24 CEST 2012:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instance a816c00e-0137-f751-5ff8-ffff85266ab0 
+Sun Jun 17 18:52:17 CEST 2012:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instance a816c00e-0137-fb58-80fc-ffff85266ab0 
 on database directory C:\Users\sven\workspace\java\predavanja-source\predavanje13\db\blogBaza  with class loader sun.misc.Launcher$AppClassLoader@35489ea3 
 Loaded from file:/C:/Program%20Files/Java/jdk1.7.0_03/db/lib/derby.jar
 java.vendor=Oracle Corporation

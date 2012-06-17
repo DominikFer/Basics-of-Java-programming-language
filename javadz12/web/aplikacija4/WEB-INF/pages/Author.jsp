@@ -8,8 +8,10 @@
 	
 	boolean loggedIn = false;
 	String loggedInUser = "Not logged in";
+	String loggedInUserNick = null;
 	if(session.getAttribute("current.user.id") != null) {
 		loggedInUser = (String) session.getAttribute("current.user.fn") + " " + (String) session.getAttribute("current.user.ln");
+		loggedInUserNick = (String) session.getAttribute("current.user.nick");
 		loggedIn = true;
 	}
 	
@@ -19,13 +21,8 @@
 	
 %>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title><%= request.getAttribute("pageTitle") %></title>
-	</head>
-	<body>
+	<jsp:include page="Header.jsp" />
 	
-	<h2><%= request.getAttribute("pageTitle") %> | Logiran kao: <%= loggedInUser %><%= loggedIn ? ", <a href=\"" + request.getContextPath() + "/servleti/logout\">Logout</a>" : "" %></h2>
 	<h3>Titles by <%= authorNick %>:</h3>
 	<ul>
     <% for(BlogEntry e : titles) { %>
@@ -33,7 +30,7 @@
     <% } %>  
     </ul>
     
-	<%= loggedIn ? "<a href=\"" + request.getContextPath() + "/servleti/author/" + authorNick + "/new" + "\">Add new blog entry as " + authorNick + "</a>" : "" %>
+	<%= (loggedIn && loggedInUserNick.equals(authorNick)) ? "<a href=\"" + request.getContextPath() + "/servleti/author/" + authorNick + "/new" + "\">Add new blog entry</a>" : "" %>
 	
 	</body>
 </html>

@@ -34,7 +34,7 @@
 		Email: <input type="text" id="email" name="email" <%= email %> /><br />
 		Nick: <input type="text" id="nick" name="nick" <%= nick %> /><br />
 		Password: <input type="password" id="password" name="password" <%= password %> /><br />
-		<input type="submit" value="Send" />
+		<input type="submit" value="Register" />
 	</form>
 	
 	<%= errors %>

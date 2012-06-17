@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ *	Removes session data for the user and therefore it's not
+ * 	longer logged in.
+ */
 @WebServlet("/servleti/logout")
 public class LogoutServlet extends HttpServlet {
 

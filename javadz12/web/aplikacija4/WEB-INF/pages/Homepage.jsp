@@ -1,3 +1,4 @@
+<%@page import="sun.util.logging.resources.logging"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@page import="hr.fer.zemris.java.tecaj_14.model.BlogUser"%>
 <%@page import="hr.fer.zemris.java.tecaj_14.webforms.LoginForm"%>
@@ -30,22 +31,21 @@
 	
 %>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title><%= request.getAttribute("pageTitle") %></title>
-	</head>
-	<body>
+	<jsp:include page="Header.jsp" />
 	
-	<h2><%= request.getAttribute("pageTitle") %> | Logiran kao: <%= loggedInUser %><%= loggedIn ? ", <a href=\"" + request.getContextPath() + "/servleti/logout\">Logout</a>" : "" %></h2>
-	<h3>Login</h3>
-	<form action="<%= request.getContextPath() %>/servleti/main" method="post">
-		Nick: <input type="text" id="nick" name="nick" <%= nick %> /><br />
-		Password: <input type="password" id="password" name="password" <%= password %> /><br />
-		<input type="submit" value="Send" />
-	</form>
-
-	<%= request.getAttribute("wrong.nickname.or.password") != null ? request.getAttribute("wrong.nickname.or.password") : "" %>	
-	<%= errors %>
+	<%
+		if(!loggedIn) {
+	%>
+		<h3>Login</h3>
+		<form action="<%= request.getContextPath() %>/servleti/main" method="post">
+			Nick: <input type="text" id="nick" name="nick" <%= nick %> /><br />
+			Password: <input type="password" id="password" name="password" <%= password %> /><br />
+			<input type="submit" value="Login" />
+		</form>
+	
+		<%= request.getAttribute("wrong.nickname.or.password") != null ? request.getAttribute("wrong.nickname.or.password") : "" %>	
+		<%= errors %>
+	<% } %>  
 	
 	<%= loggedIn ? "" : "<p>Click <a href=\"" + request.getContextPath() + "/servleti/register\">here</a> to register.</p>" %>
 	
