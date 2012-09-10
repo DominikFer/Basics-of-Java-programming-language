@@ -1,0 +1,12 @@
+Prezentacija s predavanja je dostupna na adresi:
+
+http://ferko.fer.hr/java13/predavanje_java_23062012.pdf
+
+Upozorenje: PDF je velik cca 26MB.
+
+Domaæa zadaæa je u repozitoriju. Demonstracijski projekt (nešto proširena verzija onoga što je raðeno na predavanjima) je takoðer u repozitoriju (na dnu stranice, Tjedan 16). Datoteka s kontaktima na koju se zadaæa poziva dostupna je i u tom projektu (direktorij assets) kao i popratne slièice.
+
+Pitanja:
+--------
+Nikola Kapraljeviæ: nikola@infinum.hr
+Ana Baotiæ: ana@baotic.org

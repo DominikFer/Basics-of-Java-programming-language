@@ -1,0 +1,289 @@
+Struktura projekta:
+
+lib
+
+src/java
+src/test
+
+build/classes
+build/test-classes
+
+-----------------------------------------------------------------------------------------------
+Ručna izrada projekta
+-----------------------------------------------------------------------------------------------
+
+Negdje na disku gdje možete pisati napravite direktorij za novi projekt "Aplikacija":
+
+cd NEGDJE
+mkdir Aplikacija
+cd Aplikacija
+mkdir lib
+
+Spremite junit-4.10.jar u lib (dostupno s https://github.com/KentBeck/junit/downloads).
+
+Napomena za dalje: ako eksplicitno ne piše, pretpostavka je da je trenutni direktorij upravo vršni direktorij samog projekta.
+
+------------- Osnovni kod programa -------------
+mkdir src\java\hr\fer\zemris\java\tecaj_16
+mkdir src\test\hr\fer\zemris\java\tecaj_16
+
+notepad src\java\hr\fer\zemris\java\tecaj_16\Program.java
+notepad src\java\hr\fer\zemris\java\tecaj_16\Fibonacci.java
+
+------------- Prevođenje i ručno pokretanje -------------
+
+mkdir build\classes
+javac -sourcepath src\java -d build\classes src\java\hr\fer\zemris\java\tecaj_16\*.java
+java -cp build\classes hr.fer.zemris.java.tecaj_16.Program
+
+------------- Izrada testova -------------
+
+notepad src\test\hr\fer\zemris\java\tecaj_16\FibonacciTest.java
+
+------------- Pokretanje testova -------------
+
+mkdir build\test-classes
+javac -cp build\classes;lib\junit-4.10.jar -sourcepath src\test -d build\test-classes src\test\hr\fer\zemris\java\tecaj_16\*.java
+java -cp build\test-classes;build\classes;lib\junit-4.10.jar org.junit.runner.JUnitCore hr.fer.zemris.java.tecaj_16.FibonacciTest
+
+------------- Pakiranje aplikacije u JAR koji se pokreće na dvoklik -------------
+
+echo Main-Class: hr.fer.zemris.java.tecaj_16.Program>myManifest
+mkdir build\jar
+jar cfm build\jar\Aplikacija.jar myManifest -C build\classes .
+
+------------- Pokretanje aplikacije iz JAR-a -------------
+
+java -jar build\jar\Aplikacija.jar
+
+-----------------------------------------------------------------------------------------------
+Izrada ant skripte
+-----------------------------------------------------------------------------------------------
+
+Izbrišite build direktorij te datoteku myManifest; više nam ne treba. Napravite datoteku build.xml.
+
+notepad build.xml
+
+Task "java":
+http://ant.apache.org/manual/Tasks/java.html
+
+===============================================================================================
+Datoteke
+===============================================================================================
+
+src\java\hr\fer\zemris\java\tecaj_16\Program.java
+-----------------------------------------------------------------------------------------------
+package hr.fer.zemris.java.tecaj_16;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Program {
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		int broj = 0;
+		while(true) {
+			System.out.print("Unesite broj> ");
+			String line = reader.readLine();
+			try {
+				broj = Integer.parseInt(line);
+			} catch(Exception ex) {
+				System.out.println("Ulaz "+line+" nije broj!");
+				continue;
+			}
+			break;
+		}
+		int fib = Fibonacci.calculate(broj);
+		System.out.println("fib("+broj+")="+fib);
+	}
+
+}
+-----------------------------------------------------------------------------------------------
+
+src\java\hr\fer\zemris\java\tecaj_16\Fibonacci.java
+-----------------------------------------------------------------------------------------------
+package hr.fer.zemris.java.tecaj_16;
+
+public class Fibonacci {
+
+	public static int calculate(int n) {
+		if(n<0) return 0;
+		if(n<2) return n;
+		int a = 0;
+		int b = 1;
+		for(int i = 2; i <= n; i++) {
+			int tmp = b;
+			b = a+b;
+			a = tmp;
+		}
+		return b;
+	}
+
+}
+-----------------------------------------------------------------------------------------------
+
+src\test\hr\fer\zemris\java\tecaj_16\FibonacciTest.java
+-----------------------------------------------------------------------------------------------
+package hr.fer.zemris.java.tecaj_16;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class FibonacciTest {
+
+	@Test
+	public void testWithNegativeArgumentShouldYieldZero() {
+		assertEquals(0, Fibonacci.calculate(-4));
+	}
+
+	@Test
+	public void testWithZeroShouldYieldZero() {
+		assertEquals(0, Fibonacci.calculate(0));
+	}
+}
+-----------------------------------------------------------------------------------------------
+
+build.xml -- prva verzija
+-----------------------------------------------------------------------------------------------
+<project>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src/java" destdir="build/classes" includeantruntime="false" />
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/Aplikacija.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="hr.fer.zemris.java.tecaj_16.Program"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run">
+        <java jar="build/jar/Aplikacija.jar" fork="true"/>
+    </target>
+
+</project>
+-----------------------------------------------------------------------------------------------
+
+build.xml -- druga verzija
+-----------------------------------------------------------------------------------------------
+<project name="Aplikacija" basedir="." default="main">
+
+    <property name="src.dir"     value="src"/>
+    <property name="java.src.dir"     value="${src.dir}/java"/>
+    <property name="test.src.dir"     value="${src.dir}/test"/>
+
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="test-classes.dir" value="${build.dir}/test-classes"/>
+    <property name="jar.dir"     value="${build.dir}/jar"/>
+    <property name="report.dir"  value="${build.dir}/junitreport"/>
+
+    <property name="lib.dir"     value="lib"/>
+	
+    <property name="main-class"  value="hr.fer.zemris.java.tecaj_16.Program"/>
+
+    <path id="classpath">
+        <pathelement path="${classes.dir}"/>
+    </path>
+	
+    <path id="test-classpath">
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+        <path refid="classpath"/>
+        <pathelement path="${test-classes.dir}"/>
+    </path>
+	
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${java.src.dir}" destdir="${classes.dir}" includeantruntime="false" />
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run-direct" depends="compile">
+        <java classname="${main-class}" classpathref="classpath" fork="true"/>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+    </target>
+
+    <target name="compile-tests" depends="compile">
+        <mkdir dir="${test-classes.dir}"/>
+        <javac srcdir="${test.src.dir}" destdir="${test-classes.dir}" classpathref="test-classpath" includeantruntime="false" />
+    </target>
+
+    <target name="test" depends="compile-tests">
+        <mkdir dir="${report.dir}"/>
+        <junit printsummary="yes">
+            <classpath>
+                <path refid="test-classpath"/>
+            </classpath>
+			<formatter type="xml"/>
+            <!--test name="hr.fer.zemris.java.tecaj_16.FibonacciTest"/-->
+            <batchtest fork="yes" todir="${report.dir}">
+                <fileset dir="${test.src.dir}" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+	
+    <target name="junitreport">
+        <junitreport todir="${report.dir}">
+            <fileset dir="${report.dir}" includes="TEST-*.xml"/>
+            <report todir="${report.dir}"/>
+        </junitreport>
+    </target>
+	
+    <target name="clean-build" depends="clean,jar"/>
+
+    <target name="main" depends="clean,run"/>
+
+</project>
+-----------------------------------------------------------------------------------------------
+
+Dodatne reference:
+
+http://ant.apache.org/manual/using.html#references
+http://ant.apache.org/manual/Tasks/junit.html
+
+Osim Apache Anta, danas je popularan i Apache Maven koji sa sobom donosi jar depencency management; u okviru opisnika projekta definira se o kojim jarovima ovisi projekt i sustav se sam brine da s interneta po potrebi dohvati trazene jarove (postoje repozitoriji jar-datoteka).
+
+===============================================================================================
+SVN
+===============================================================================================
+
+SVN repozitorij: korisničko ime je JMBAG, sifra cu reci uživo; primjerice. To su privremeni podatci za potrebe ovog predavanja; repozitorij će nakon predavanja biti uklonjen.
+
+Adresa repozitorija je:
+
+https://ferko.fer.hr/svn/javatecaj20112012
+
+Skinuti projekt iz repozitorija, implementirati u paketu workers razred DSvasjmbagWorker i promjene spremiti u repozitorij (primjerice, student koji ima JMBAG 0012345678 treba napraviti razred DS0012345678Worker u paketu hr.fer.zemris.java.tecaj_16.workers).
+
+===============================================================================================
+Info:
+===============================================================================================
+
+ - molim popuniti anketu
+ - nova vještina...
+ 
