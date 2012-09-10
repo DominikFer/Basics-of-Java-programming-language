@@ -13,8 +13,9 @@ vam ne radi jedna od njih vrlo vjerojatno ćete ju morati nadoknaditi na sljede�
 
 Što sve sadrži ovaj repozitorij?
 --------
-Sadrži sve riješene domaće zadaće (uključujući i njihova uputstva u `.PDF` formatu u folderu svake od zadaća)
-koje su dobivene na predavanjima za riješiti kod kuće u roku od tjedan dana (svaka od njih).
+Sadrži sve* riješene domaće zadaće (uključujući i njihova uputstva u `.PDF` formatu u folderu svake od zadaća)
+koje su dobivene na predavanjima za riješiti kod kuće u roku od tjedan dana (svaka od njih).  
+*iznimka je `dz13` paket `hw2`
 
 Pošto zadaće nisu bile pregledavane (niti jedna od njih) ne mogu garantirati njihovu odličnu izvedbu, međutim svaka
 od njih je radila prema zadanim uputama (npr. Android aplikacija je radila sve kako treba, WebServer je odgovarao
