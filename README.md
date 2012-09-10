@@ -31,6 +31,10 @@ Tko je pisao ovaj kod?
 Sve zadaće i primjeri sa predavanja su osobno napisani osim primjera s `predavanja broj 10` i
 završetka `8. domaće zadaće` oko grafova statistike gdje je uskočio `Mario Kostelac` sa svojim primjerima.
 
+Gdje mogu skinuti ovaj cijeli paket odjednom?
+--------
+Gore lijevo klikom na `ZIP` gumb ili direktno putem [linka][3].
+
   [1]: http://www.fer.unizg.hr/predmet/opjj
   [2]: http://www.fer.unizg.hr
-  [3]: https://github.com/svenkapudija/fer-opjj-2011-2012/blob/master/javadz14/assets/image2.jpeg
+  [3]: https://github.com/svenkapudija/fer-opjj-2011-2012/zipball/master
