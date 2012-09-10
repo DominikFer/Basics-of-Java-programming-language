@@ -20,11 +20,16 @@ Pošto zadaće nisu bile pregledavane (niti jedna od njih) ne mogu garantirati n
 od njih je radila prema zadanim uputama (npr. Android aplikacija je radila sve kako treba, WebServer je odgovarao
 na upite i sl.) te sam se trudio koristiti oblikovne obrasce i komentirati kod.
 
+Zašto brojevi predavanja i zadaća nisu usklađeni?
+--------
+Zato jer je očito bio neki mix kod numeriranja predavanja na ferku i predavanja kako bi ona išla normalnim redoslijedom
+ili neka predavanja jednostavno nemaju pripreme tako da se negdje predavanja i zadaće počinju `preklapati`.
+
 Tko je pisao ovaj kod?
 --------
 Sve zadaće i primjeri sa predavanja su osobno napisani osim primjera s `predavanja broj 10` i
 završetka `8. domaće zadaće` oko grafova statistike gdje je uskočio `Mario Kostelac` sa svojim primjerima.
 
-
   [1]: http://www.fer.unizg.hr/predmet/opjj
-  [2]: http://
+  [2]: http://www.fer.unizg.hr
+  [3]: https://github.com/svenkapudija/fer-opjj-2011-2012/blob/master/javadz14/assets/image2.jpeg
