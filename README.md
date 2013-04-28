@@ -1,35 +1,40 @@
-[Osnove programskog jezika Java (OPJJ)][1]
+[Basics of Java programming language - Java course][1]
 ==================
 
-    Akademska godina: 2011./2012.  
-    Predavač: Dr. sc. Marko Čupić
+    Academic year: 2011./2012.  
+    Lecturer: Dr. sc. Marko Čupić
 
 
-Što je Java tečaj?
+What is "Java course"?
 --------
-Java tečaj je vještina koja se održava na [FER][2]-u već nekoliko godina pod vodstvom Dr. sc. Marka Čupića. Glasi kao jedna
-od zahtjevnijih vještina upravo zbog (kreativnih) domaćih zadaća koje se npr. moraju rješavati sve od reda jer ako
-vam ne radi jedna od njih vrlo vjerojatno ćete ju morati nadoknaditi na sljedećoj koja se nadovezuje na nju.
+Java course is an optional subject at [FER][2] - already for a few years under guidance of Dr. sc. Marko Čupić. It's one
+of the more complex subjects because of (creative) homeworks which must be solved all in order because if you miss one - 
+the very next one is an upgrade to it (and therefore you can't solve it).
 
-Što sve sadrži ovaj repozitorij?
+What this repository contains?
 --------
-Sadrži sve* riješene domaće zadaće (uključujući i njihova uputstva u `.PDF` formatu u folderu svake od zadaća)
-koje su dobivene na predavanjima za riješiti kod kuće u roku od tjedan dana (svaka od njih).  
-*iznimka je `dz13` paket `hw2`
+It contains all* solved homeworks (including their instructions inside `.PDF` format in English inside of every folder)
+which are given as a task to solve at home in one week timespan.
+*exception is `dz13` form package `hw2`
 
-Pošto zadaće nisu bile pregledavane (niti jedna od njih) ne mogu garantirati njihovu odličnu izvedbu, međutim svaka
-od njih je radila prema zadanim uputama (npr. Android aplikacija je radila sve kako treba, WebServer je odgovarao
-na upite i sl.) te sam se trudio koristiti oblikovne obrasce i komentirati kod.
+Homeworks were not checked at all (because of some obligations that lecturer have on other subjects) so I can't
+guarantee their great performance but every single one worked according to instructions (for example Android app worked
+fine, WebServer responded to given requests etc.) and I tried to use design patterns and commented code.
 
-Zašto brojevi predavanja i zadaća nisu usklađeni?
+Why the lecture numbers and homework numbers aren't matching?
 --------
-Zato jer je očito bio neki mix kod numeriranja predavanja na ferku i predavanja kako bi ona išla normalnim redoslijedom
-ili neka predavanja jednostavno nemaju pripreme tako da se negdje predavanja i zadaće počinju `preklapati`.
+Because there obviously happend some `mix` in between because some lectures don't have instructions so somewhere
+lectures and homeworks start to overlap.
 
-Tko je pisao ovaj kod?
+Who wrote this code?
 --------
-Sve zadaće i primjeri sa predavanja su osobno napisani osim primjera s `predavanja broj 10` i
-završetka `8. domaće zadaće` oko grafova statistike gdje je uskočio `Mario Kostelac` sa svojim primjerima.
+All homeworks and examples from lectures were personally coded except the examples from `lecture number 10` and finishing
+part of `Homework 8` (statistics graph) which were written by `Mario Kostelac`. 
+
+How can I use this?
+--------
+Lectures are on Croatian so there won't be much help but all homeworks are written in English so feel free to open `javadz**` where
+`**` is homework ordinal number and start writing some code :)
 
   [1]: http://www.fer.unizg.hr/predmet/opjj
   [2]: http://www.fer.unizg.hr
